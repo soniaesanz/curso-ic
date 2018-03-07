@@ -43,4 +43,13 @@ public class Client implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
