@@ -40,6 +40,10 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-logging:2.0.0.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-data-jpa:2.0.0.RELEASE')
 	compile('com.microsoft.sqlserver:mssql-jdbc:6.4.0.jre8')
+
+	//TEST DEPENDENCIES
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
+	testCompile('cglib:cglib-nodep:3.2.2')
 }
 
