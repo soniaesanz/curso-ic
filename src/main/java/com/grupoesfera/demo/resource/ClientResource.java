@@ -6,6 +6,8 @@ import com.grupoesfera.demo.repository.ClientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,13 @@ public class ClientResource {
         );
     }
 
+    @GetMapping("")
+    public ResponseEntity<Page> findAll(Pageable p){
+
+        return ResponseEntity.ok(
+          clienteRepository.findAll(p)
+        );
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Client> find(@PathVariable(value = "id") Long id) {
