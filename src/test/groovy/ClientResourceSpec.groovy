@@ -1,7 +1,6 @@
 import com.grupoesfera.demo.exceptions.ResourceNotFoundException
 import com.grupoesfera.demo.repository.ClientRepository
 import com.grupoesfera.demo.resource.ClientResource
-import groovy.json.JsonSlurper
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*

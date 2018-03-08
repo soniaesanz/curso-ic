@@ -21,14 +21,14 @@ public class ClientResource {
     @Autowired
     private ClientRepository clienteRepository;
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping(value = "/v1.0",consumes = "application/json")
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
 
         log.info("create client with name [{}] and lastname [{}]",client.getName(),client.getLastName());
         return saveOrUpdateClientResponseEntity(client);
     }
 
-    @PutMapping (consumes = "application/json")
+    @PutMapping (value = "/v1.0", consumes = "application/json")
     public ResponseEntity<Client> udateClient(@RequestBody Client client) {
 
         log.info("updating client, {}", client);
@@ -41,7 +41,7 @@ public class ClientResource {
         );
     }
 
-    @GetMapping("")
+    @GetMapping("/v1.0")
     public ResponseEntity<Page> findAll(Pageable p){
 
         return ResponseEntity.ok(
@@ -49,7 +49,7 @@ public class ClientResource {
         );
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/v1.0/{id}")
     public ResponseEntity<Client> find(@PathVariable(value = "id") Long id) {
         log.info("searchig for client with, {}", id);
         return ResponseEntity.ok(
@@ -58,7 +58,7 @@ public class ClientResource {
         );
     }
 
-    @DeleteMapping (consumes = "application/json")
+    @DeleteMapping (value = "/v1.0", consumes = "application/json")
     public ResponseEntity<Client> delete(@RequestBody Client client) {
 
         log.info("deleting client, {}", client);

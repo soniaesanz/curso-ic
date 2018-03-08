@@ -1,6 +1,7 @@
 package com.grupoesfera.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
+@ApiModel("Client")
 public class Client implements Serializable{
 
     private String name;
