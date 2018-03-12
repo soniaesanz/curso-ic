@@ -1,4 +1,4 @@
-package com.grupoesfera.demo.domain;
+package com.grupoesfera.demo.integration.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;

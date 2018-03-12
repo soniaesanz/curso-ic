@@ -1,4 +1,4 @@
-package com.grupoesfera.demo;
+package com.grupoesfera.demo.integration;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

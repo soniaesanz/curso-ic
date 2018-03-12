@@ -1,6 +1,8 @@
-import com.grupoesfera.demo.exceptions.ResourceNotFoundException
-import com.grupoesfera.demo.repository.ClientRepository
-import com.grupoesfera.demo.resource.ClientResource
+package com.grupoesfera.demo
+
+import com.grupoesfera.demo.integration.exceptions.ResourceNotFoundException
+import com.grupoesfera.demo.integration.repository.ClientRepository
+import com.grupoesfera.demo.integration.resource.ClientResource
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*

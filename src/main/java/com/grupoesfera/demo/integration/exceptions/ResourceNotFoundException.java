@@ -1,4 +1,4 @@
-package com.grupoesfera.demo.exceptions;
+package com.grupoesfera.demo.integration.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

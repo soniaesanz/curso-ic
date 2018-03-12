@@ -1,8 +1,8 @@
-package com.grupoesfera.demo.resource;
+package com.grupoesfera.demo.integration.resource;
 
-import com.grupoesfera.demo.domain.Client;
-import com.grupoesfera.demo.exceptions.ResourceNotFoundException;
-import com.grupoesfera.demo.repository.ClientRepository;
+import com.grupoesfera.demo.integration.domain.Client;
+import com.grupoesfera.demo.integration.exceptions.ResourceNotFoundException;
+import com.grupoesfera.demo.integration.repository.ClientRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.slf4j.Logger;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 
 @RestController
