@@ -25,7 +25,7 @@ Para ejecutar el proyecto hay que pararse en el folder root del proyecto
 $ gradle bootRun
 ```
 
-   [Docker]: <https://docs.docker.com/install/>
+   [Docker]: <https://docs.docker.com/install/linux/docker-ce/ubuntu/#os-requirements>
    [gradle]: <https://gradle.org/>
    [sdkman]: <http://sdkman.io/>
    
