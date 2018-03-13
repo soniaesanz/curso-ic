@@ -11,14 +11,24 @@
 Levantar sql server 
 
 ```sh
-$ docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Pa$$w0rd1 -p 1433:1433 -d microsoft/mssql-server-linux:2017-CU4
+$ docker run -e 'ACCEPT_EULA=Y' --name sql-server -e 'SA_PASSWORD=Pa$$w0rd1' -p 1433:1433 -d microsoft/mssql-server-linux:2017-CU4
 ```
+
+Cear la base de datos (también se puede hacer desde algun cliente de babse de datos)
+
+```sh
+$ docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd \
+   -S localhost -U SA -P 'Pa$$w0rd1' \
+   -Q 'CREATE DATABASE demo'
+```
+
 
 Levantar redis
 
 ```sh
 $ docker run --name some-redis -d redis -p 6379:6379
 ```
+
 Para ejecutar el proyecto hay que pararse en el folder root del proyecto 
 
 ```sh
