@@ -15,8 +15,10 @@
     post{
         failure {
 
+                println "Enviando notificacion por slack"
                 slackSend (color: '#ff0000', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 
+                println "enviando email"
                 emailext (
                   subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                   body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
