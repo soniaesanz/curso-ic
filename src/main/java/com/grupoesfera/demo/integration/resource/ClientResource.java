@@ -23,14 +23,14 @@ public class ClientResource {
     @Autowired
     private ClientRepository clienteRepository;
 
-    @PostMapping(value = "/v1.0",consumes = "application/json")
+    @PostMapping(value = "/v1.0")
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
 
         log.info("create client with name [{}] and lastname [{}]",client.getName(),client.getLastName());
         return saveOrUpdateClientResponseEntity(client);
     }
 
-    @PutMapping (value = "/v1.0", consumes = "application/json")
+    @PutMapping (value = "/v1.0")
     public ResponseEntity<Client> udateClient(@RequestBody Client client) {
 
         log.info("updating client, {}", client);
@@ -70,7 +70,7 @@ public class ClientResource {
         );
     }
 
-    @DeleteMapping (value = "/v1.0", consumes = "application/json")
+    @DeleteMapping (value = "/v1.0")
     public ResponseEntity<Client> delete(@RequestBody Client client) {
 
         log.info("deleting client, {}", client);

@@ -27,7 +27,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
 
 
-    Page findAll(Pageable p);
+    Page<Client> findAll(Pageable p);
 }
 
 
