@@ -49,12 +49,6 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
 	testCompile('cglib:cglib-nodep:3.2.2')
-	// https://mvnrepository.com/artifact/com.h2database/h2
-	runtime group: 'com.h2database', name: 'h2', version: '1.4.196'
-
-	// https://mvnrepository.com/artifact/com.google.guava/guava-collections
-	compile group: 'com.google.guava', name: 'guava-collections', version: 'r03'
-
-
+	runtime('com.h2database:h2:1.4.196')
 }
 
