@@ -62,7 +62,7 @@ try {
     }
 
 }
-catch (exc) {|
+catch (exc) {
     echo "Caught: ${exc}"
 
     String recipient = 'matias.gonzalez@grupoesfera.com.ar'
