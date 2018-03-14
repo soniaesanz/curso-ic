@@ -2,7 +2,7 @@
     agent {
         docker {
             image 'gradle:4.6.0-jdk8-alpine'
-            args '-v $HOME/.m2:/root/.m2'
+            args '-v $HOME/.gradle:/home/gradle/.gradle'
         }
     }
     stages {
