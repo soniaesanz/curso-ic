@@ -2,7 +2,7 @@ pipeline {
      environment {
           MAIL = "matias.gonzalez@grupoesfera.com.ar"
           SLACK_CHANNEL = "#demo-failed-jobs"
-       }
+    }
     agent {
         docker {
             image 'gradle:4.6.0-jdk8-alpine'
@@ -29,11 +29,7 @@ pipeline {
          }
         failure {
 
-
-                def mail = "matias.gonzalez@grupoesfera.com.ar"
-                def slackChannel = "#demo-failed-jobs"
-
-                slackSend ( channel:SLACK_CHANNEL,
+               slackSend ( channel:SLACK_CHANNEL,
                             color: '#ff0000',
                             message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 
