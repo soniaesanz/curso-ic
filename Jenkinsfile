@@ -18,7 +18,7 @@ pipeline {
         }
 
         stage('Create Dockerfile'){
-            input message:'Crear imagen?'
+            input(message:'Crear imagen?')
             steps {
                 sh 'gradle buildImage -x test'
             }
