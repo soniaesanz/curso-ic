@@ -24,7 +24,7 @@ class ClientResourceSpec extends Specification{
     def "el get sobre un recurso no encontrado debe responder un status 404"() {
 
         when:
-        def response = mockMvc.perform(get('/clients/v1/1')).andReturn().response
+        def response = mockMvc.perform(get('/clients/v1.0/1')).andReturn().response
 
         then:
         1 * clientRepository.findById(1) >> Optional.empty()
