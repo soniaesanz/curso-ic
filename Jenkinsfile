@@ -16,6 +16,14 @@
         always {
             junit '**/build/test-results/test/*.xml'
          }
+         publishHTML (target: [
+               allowMissing: false,
+               alwaysLinkToLastBuild: false,
+               keepAll: true,
+               reportDir: 'demo/build/reports/tests/test',
+               reportFiles: 'index.html',
+               reportName: "Test result"
+             ])
         failure {
                 slackSend (color: '#ff0000', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 
