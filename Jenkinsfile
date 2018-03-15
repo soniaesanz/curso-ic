@@ -14,13 +14,6 @@ pipeline {
         stage('Build + Unit Test') {
 
              steps {
-              script{
-                                                 println "lala"
-                                                 println currentBuild.result
-                                                 currentBuild.result='SUCCESS'
-
-                                                 println currentBuild.result
-                                         }
                 sh 'gradle build'
             }
         }
@@ -43,9 +36,23 @@ pipeline {
         }
         stage('Create git tag'){
             steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    input message:"Crear tag?"
-                }
+           script{
+            def userInput
+            try {
+                userInput = input(
+                    id: 'Proceed1', message: 'Was this successful?', parameters: [
+                    [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
+                    ])
+            } catch(err) { // input false
+                def user = err.getCauses()[0].getUser()
+                userInput = false
+                echo "Aborted by: [${user}]"
+            }
+            }
+
+ //               timeout(time: 10, unit: 'MINUTES') {
+   //                 input message:"Crear tag?"
+     //           }
 
                 println "$tag"
             }
