@@ -31,9 +31,8 @@ def appName = 'demo'
 
 repositories {
 	mavenCentral()
-	maven {
-		url 'https://repo.spring.io/libs-release'
-	}
+	maven { url 'https://repo.spring.io/libs-release' }
+	maven { url 'https://oss.sonatype.org/content/groups/public' }
 }
 
 
@@ -48,6 +47,9 @@ dependencies {
 	compile('io.springfox:springfox-swagger-ui:2.8.0')
 	compile('io.springfox:springfox-swagger2:2.8.0')
 	compile('io.springfox:springfox-spring-web:2.8.0')
+
+	dockerJava 'com.github.docker-java:docker-java:3.1.0-SNAPSHOT'
+	dockerJava 'cglib:cglib:3.2.0'
 
 	//TEST DEPENDENCIES
 	testCompile('org.springframework.boot:spring-boot-starter-test')

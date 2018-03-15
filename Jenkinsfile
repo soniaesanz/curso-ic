@@ -17,10 +17,9 @@ pipeline {
             }
         }
 
-        stage('Build image'){
+        stage('Create Dockerfile'){
             steps {
-                sh 'gradle createDockerfile -x test'
-                sh 'docker build build/libs/. --tag demo:0.0.2-SNAPSHOT'
+                sh 'gradle buildImage -x test'
             }
         }
     }
