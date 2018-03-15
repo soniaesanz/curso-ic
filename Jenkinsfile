@@ -12,7 +12,13 @@ pipeline {
     }
     stages {
         stage('Build + Unit Test') {
+            script{
+                                    println "lala"
+                                    println currentBuild.result
+                                    currentBuild.result='SUCCESS'
 
+                                    println currentBuild.result
+                            }
              steps {
                 sh 'gradle build'
             }
