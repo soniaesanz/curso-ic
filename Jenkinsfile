@@ -10,7 +10,7 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
+        stage('Build + Unit Test') {
              steps {
                 sh 'gradle build'
             }
