@@ -17,11 +17,12 @@ pipeline {
             }
         }
 
-        input message:"Crear imagen?"
 
         stage('Create Dockerfile'){
 
             steps {
+            input message:"Crear imagen?"
+
                 sh 'gradle buildImage -x test'
             }
         }
