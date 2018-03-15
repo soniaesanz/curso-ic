@@ -17,13 +17,14 @@ pipeline {
             }
         }
 
-
         stage('Create Dockerfile'){
 
             steps {
-            input message:"Crear imagen?"
-
-                sh 'gradle buildImage -x test'
+                timeout(time: 10, unit: 'MINUTES') {
+                    input message:"Crear imagen?"
+                }
+                tag = '1.0.0'
+                sh "gradle -DappVersion=$tag buildImage -x test"
             }
         }
     }
