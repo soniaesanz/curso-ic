@@ -16,24 +16,25 @@ pipeline {
                 sh 'gradle build'
             }
         }
-        stage('Tag Build'){
-            agent any
-            steps{
+        stage('Create docker image'){
+
+            steps {
+                script{
+                    tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
+                }
+                sh "gradle -DappVersion=$tag buildImage -x test"
+                //push de la imagen
+            }
+        }
+        stage('Create git tag'){
+            steps {
                 timeout(time: 10, unit: 'MINUTES') {
-                    input message:"Crear imagen?"
+                    input message:"Crear tag?"
                 }
                 script{
                     tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
                 }
-                sh('git tag -a $tag')
-                sh('git push --tags')
-            }
-        }
-        stage('Create Dockerfile'){
-
-            steps {
-                sh "gradle -DappVersion=$tag buildImage -x test"
-                //push de la imagen
+                println "$tag"
             }
         }
     }
