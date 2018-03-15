@@ -3,6 +3,9 @@ pipeline {
           MAIL = "matias.gonzalez@grupoesfera.com.ar"
           SLACK_CHANNEL = "demo-failed-jobs"
     }
+    script{
+        tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
+    }
     agent {
         docker {
             image 'gradle:4.6.0-jdk8-alpine'
@@ -19,9 +22,7 @@ pipeline {
         stage('Create docker image'){
 
             steps {
-                script{
-                    tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
-                }
+
                 sh "gradle -DappVersion=$tag buildImage -x test"
                 //push de la imagen
             }
@@ -35,11 +36,12 @@ pipeline {
         }
         stage('Create git tag'){
             steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    input message:"Crear tag?"
-                }
-                script{
-                    tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
+                try{
+                    timeout(time: 10, unit: 'MINUTES') {
+                        input message:"Crear tag?"
+                    }
+                }catch(err) { // timeout reached or input false
+                    currentBuild.result =  'SUCCESS'
                 }
                 println "$tag"
             }
