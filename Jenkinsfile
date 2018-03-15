@@ -16,7 +16,7 @@ pipeline {
                 sh 'gradle build'
             }
         }
-        stage('Create Dockerfile'){
+        stage('Tag Build'){
             agent any
             steps{
                 timeout(time: 10, unit: 'MINUTES') {
