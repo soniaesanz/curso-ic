@@ -19,7 +19,7 @@
                            allowMissing: false,
                            alwaysLinkToLastBuild: false,
                            keepAll: true,
-                           reportDir: 'demo/build/reports/tests/test',
+                           reportDir: 'build/reports/tests/test',
                            reportFiles: 'index.html',
                            reportName: "Test result"
                          ])
