@@ -36,13 +36,10 @@ pipeline {
         }
         stage('Create git tag'){
             steps {
-                try{
-                    timeout(time: 10, unit: 'MINUTES') {
-                        input message:"Crear tag?"
-                    }
-                }catch(err) { // timeout reached or input false
-                    currentBuild.result =  'SUCCESS'
+                timeout(time: 10, unit: 'MINUTES') {
+                    input message:"Crear tag?"
                 }
+
                 println "$tag"
             }
         }
