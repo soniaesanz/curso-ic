@@ -47,6 +47,7 @@ pipeline {
                 def user = err.getCauses()[0].getUser()
                 userInput = false
                 echo "Aborted by: [${user}]"
+                currentBuild.result = 'SUCCESS'
             }
             }
 
