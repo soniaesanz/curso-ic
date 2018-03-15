@@ -17,10 +17,11 @@ pipeline {
             }
         }
 
-        stage('Create Dockerfile'){
-            timeout(time: 15, unit: 'MINUTES') {
+        timeout(time: 15, unit: 'MINUTES') {
                 input message:"Crear imagen?"
-            }
+        }
+        stage('Create Dockerfile'){
+
             steps {
                 sh 'gradle buildImage -x test'
             }
