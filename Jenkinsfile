@@ -54,7 +54,8 @@ pipeline {
                            reportFiles: 'index.html',
                            reportName: "Test result"
                          ])
-            currentBuild.result='SUCCESS'
+            script{
+            currentBuild.result='SUCCESS'}
          }
         failure {
                println "enviando mensaje al canal de slack $SLACK_CHANNEL"
