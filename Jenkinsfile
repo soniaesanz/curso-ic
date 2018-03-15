@@ -1,7 +1,7 @@
 pipeline {
      environment {
           MAIL = "matias.gonzalez@grupoesfera.com.ar"
-          SLACK_CHANNEL = "#demo-failed-jobs"
+          SLACK_CHANNEL = "demo-failed-jobs"
     }
     agent {
         docker {
@@ -28,11 +28,12 @@ pipeline {
                          ])
          }
         failure {
-
+                println "enviando mensaje a $SLACK_CHANNEL"
                slackSend ( channel:SLACK_CHANNEL,
                             color: '#ff0000',
                             message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 
+                println "envianado mail a $MAIL"
                 emailext (
                   subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                   body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
