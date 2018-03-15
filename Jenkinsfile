@@ -17,9 +17,8 @@ pipeline {
             }
         }
 
-        timeout(time: 15, unit: 'MINUTES') {
-                input message:"Crear imagen?"
-        }
+        input message:"Crear imagen?"
+
         stage('Create Dockerfile'){
 
             steps {
