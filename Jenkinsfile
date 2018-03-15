@@ -15,6 +15,12 @@ pipeline {
                 sh 'gradle build'
             }
         }
+
+        stage('Build image'){
+            steps {
+                sh 'gradle buildImage -x test'
+            }
+        }
     }
     post{
         always {
