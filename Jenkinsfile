@@ -17,7 +17,7 @@ pipeline {
             }
         }
         stage('Create Dockerfile'){
-            agetn any
+            agent any
             steps{
                 timeout(time: 10, unit: 'MINUTES') {
                     input message:"Crear imagen?"
