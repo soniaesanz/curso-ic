@@ -24,8 +24,10 @@ pipeline {
                     input message:"Crear imagen?"
                 }
                 script{
-                    tag = '2.0.0' // crear el tag lo asociamos a github?
+                    tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
                 }
+                sh('git tag -a $tag')
+                sh('git push --tags')
                 sh "gradle -DappVersion=$tag buildImage -x test"
                 //push de la imagen
             }
