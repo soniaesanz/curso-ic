@@ -14,7 +14,8 @@
     }
     post{
         always {
-            junit '**/reports/tests/test/*.xml'
+            //junit '**/reports/tests/test/*.xml'
+            junit '/var/jenkins_home/workspace/demo/build/reports/tests/test/*.html'
          }
         failure {
                 slackSend (color: '#ff0000', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
