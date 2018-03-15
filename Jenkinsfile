@@ -26,6 +26,13 @@ pipeline {
                 //push de la imagen
             }
         }
+        stage('Deploy CI'){
+
+            steps {
+                println "desplegando version $tag"
+                //push de la imagen
+            }
+        }
         stage('Create git tag'){
             steps {
                 timeout(time: 10, unit: 'MINUTES') {
