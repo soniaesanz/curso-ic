@@ -21,7 +21,7 @@ pipeline {
 
             steps {
                 script{
-                        tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
+                    tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
                 }
                 sh "gradle -DappVersion=$tag buildImage -x test"
                 //push de la imagen
@@ -54,6 +54,7 @@ pipeline {
                            reportFiles: 'index.html',
                            reportName: "Test result"
                          ])
+            currentBuild.result='SUCCESS'
          }
         failure {
                println "enviando mensaje al canal de slack $SLACK_CHANNEL"
