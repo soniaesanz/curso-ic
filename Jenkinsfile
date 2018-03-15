@@ -3,15 +3,15 @@ pipeline {
           MAIL = "matias.gonzalez@grupoesfera.com.ar"
           SLACK_CHANNEL = "demo-failed-jobs"
     }
-
+    agent {
+        docker {
+            image 'gradle:4.6.0-jdk8-alpine'
+            args '-v $HOME/.gradle:/home/gradle/.gradle'
+        }
+    }
     stages {
         stage('Build + Unit Test') {
-             agent {
-                     docker {
-                         image 'gradle:4.6.0-jdk8-alpine'
-                         args '-v $HOME/.gradle:/home/gradle/.gradle'
-                     }
-             }
+
              steps {
                 sh 'gradle build'
             }
