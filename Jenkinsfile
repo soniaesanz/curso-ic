@@ -17,20 +17,21 @@ pipeline {
             }
         }
         stage('Create Dockerfile'){
-            agent any
-            timeout(time: 10, unit: 'MINUTES') {
-                input message:"tag build?"
+            agetn any
+            steps{
+                timeout(time: 10, unit: 'MINUTES') {
+                    input message:"Crear imagen?"
+                }
+                script{
+                    tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
+                }
+                sh('git tag -a $tag')
+                sh('git push --tags')
             }
-            script{
-                tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
-            }
-            sh('git tag -a $tag')
-            sh('git push --tags')
         }
         stage('Create Dockerfile'){
 
             steps {
-
                 sh "gradle -DappVersion=$tag buildImage -x test"
                 //push de la imagen
             }
