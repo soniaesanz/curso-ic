@@ -24,8 +24,12 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.gorylenko.gradle-git-properties'
 apply plugin: 'com.bmuschko.docker-java-application'
 
+	def appVersion =  System.properties['appVersion']?:'0.0.1-SNAPSHOT'
+
+println "appVersion[$appVersion]"
+
 group = 'com.grupoesfera'
-version = '0.0.1-SNAPSHOT'
+version = appVersion
 sourceCompatibility = 1.8
 def appName = 'demo'
 
