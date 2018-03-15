@@ -7,10 +7,12 @@ buildscript {
 		maven {
 			url "https://plugins.gradle.org/m2/"
 		}
+
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.21"
+		classpath 'com.bmuschko:gradle-docker-plugin:3.0.6'
 	}
 }
 
@@ -19,11 +21,13 @@ apply plugin: 'eclipse'
 apply plugin: 'groovy'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: "com.gorylenko.gradle-git-properties"
+apply plugin: 'com.gorylenko.gradle-git-properties'
+apply plugin: 'com.bmuschko.docker-java-application'
 
 group = 'com.grupoesfera'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+def appName = 'demo'
 
 repositories {
 	mavenCentral()
@@ -51,4 +55,35 @@ dependencies {
 	testCompile('cglib:cglib-nodep:3.2.2')
 	runtime('com.h2database:h2:1.4.196')
 }
+
+// ===== Docker
+
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
+task createDockerfile(type: Dockerfile) {
+	dependsOn build
+	destFile = project.file("${buildDir}/libs/Dockerfile")
+	from 'frolvlad/alpine-oraclejdk8:slim'
+	volume "/tmp"
+	maintainer 'maty "matias.gonzalez@grupoesfera.com.ar"'
+	addFile "./${appName}-${version}.jar", "/app.jar"
+	runCommand "sh -c 'touch /app.jar'"
+	environmentVariable "JAVA_OPTS", '""'
+	entryPoint "sh", "-c", "java \$JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar"
+}
+
+task buildImage(type: DockerBuildImage) {
+	dependsOn createDockerfile
+	inputDir = createDockerfile.destFile.parentFile
+	tag = "${appName}:${version}"
+}
+/*
+task pushImage(type: DockerPushImage) {
+	dependsOn buildImage
+	imageName = buildImage.tag
+	tag = app.version
+}*/
+// ===== End Docker
 

@@ -1,5 +1,3 @@
-package com.grupoesfera.demo
-
 import com.grupoesfera.demo.integration.exceptions.ResourceNotFoundException
 import com.grupoesfera.demo.integration.repository.ClientRepository
 import com.grupoesfera.demo.integration.resource.ClientResource
