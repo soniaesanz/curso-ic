@@ -4,7 +4,7 @@ pipeline {
           SLACK_CHANNEL = "demo-failed-jobs"
     }
 
-
+   agent any
     stages {
         stage('Build + Unit Test') {
           agent {
@@ -25,8 +25,7 @@ pipeline {
                     }
                 }
             steps {
-               sh 'echo hola'
-               //sh "gradle -DappVersion=latest buildImage -x test"
+               sh "gradle -DappVersion=latest buildImage -x test"
             }
         }
         stage('Deploy CI'){
