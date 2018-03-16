@@ -25,7 +25,7 @@ pipeline {
                     }
                 }
             steps {
-                 sh 'gradle build -DappVersion=latest'
+                 
                  sh "gradle -DappVersion=latest buildImage -x test"
             }
         }
