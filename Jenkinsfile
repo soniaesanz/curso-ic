@@ -51,15 +51,6 @@ pipeline {
 
 
          }
-         aborted{
-            script{
-                        println "lala"
-                        println currentBuild.result
-                        currentBuild.result='SUCCESS'
-
-                        println currentBuild.result
-                }
-         }
         failure {
                println "enviando mensaje al canal de slack $SLACK_CHANNEL"
                slackSend ( channel:SLACK_CHANNEL,
