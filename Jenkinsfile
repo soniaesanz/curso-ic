@@ -25,8 +25,9 @@ pipeline {
                     }
                 }
             steps {
-                sh 'gradle build -x test'
-                sh "gradle -DappVersion=latest buildImage -x test"
+                 sh 'echo hola'
+                //sh 'gradle build -x test'
+                //sh "gradle -DappVersion=latest buildImage -x test"
             }
         }
         stage('Deploy CI'){
