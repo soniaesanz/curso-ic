@@ -4,21 +4,26 @@ pipeline {
           SLACK_CHANNEL = "demo-failed-jobs"
     }
 
-    agent {
-        docker {
-            image 'gradle:4.6.0-jdk8-alpine'
-            args '-v $HOME/.gradle:/home/gradle/.gradle'
-        }
-    }
+    agent any
     stages {
         stage('Build + Unit Test') {
-
+             agent {
+                     docker {
+                         image 'gradle:4.6.0-jdk8-alpine'
+                         args '-v $HOME/.gradle:/home/gradle/.gradle'
+                     }
+                 }
              steps {
                 sh 'gradle build'
             }
         }
         stage('Create docker image'){
-
+            agent {
+                    docker {
+                        image 'gradle:4.6.0-jdk8-alpine'
+                        args '-v $HOME/.gradle:/home/gradle/.gradle'
+                    }
+                }
             steps {
                 sh "gradle -DappVersion=latest buildImage -x test"
             }
@@ -51,7 +56,9 @@ pipeline {
                                             description: '',
                                             name: 'Release']]
                     }
-                    println "mergeando y pusheando a staging"
+
+                    sh "git tag  build-${env.BUILD_NUMBER}"
+
                 } catch (err) {
                     result = false
                     println "Timeout for merge   reached"
