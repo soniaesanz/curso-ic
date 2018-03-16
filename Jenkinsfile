@@ -20,44 +20,22 @@ pipeline {
         stage('Create docker image'){
 
             steps {
-                script{
-                    tag = "build-${env.BUILD_NUMBER}" // crear el tag lo asociamos a github?
-                }
-                sh "gradle -DappVersion=$tag buildImage -x test"
-                //push de la imagen
+                sh "gradle -DappVersion=latest buildImage -x test"
             }
         }
         stage('Deploy CI'){
 
             steps {
-                println "desplegando version $tag"
+                println "desplegando en CI la ultima version"
                 //push de la imagen
             }
         }
-        stage('Create git tag'){
-            steps {
-           script{
-            def userInput
-            try {
-                userInput = input(
-                    id: 'Proceed1', message: 'Was this successful?', parameters: [
-                    [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
-                    ])
-            } catch(err) { // input false
-                println "aborted"
-                def user = err.getCauses()[0].getUser()
-                userInput = false
-                echo "Aborted by: [${user}]"
-                currentBuild.result = 'SUCCESS'
-            }
-            }
+        stage('Integration Test'){
 
- //               timeout(time: 10, unit: 'MINUTES') {
-   //                 input message:"Crear tag?"
-     //           }
-
-                println "$tag"
-            }
+                steps {
+                    println "Corriendo newman"
+                    //push de la imagen
+                }
         }
     }
     post{
