@@ -32,32 +32,34 @@ pipeline {
         }
         stage('Integration Test'){
 
-                steps {
-                    println "Corriendo newman"
-                    //push de la imagen
-                }
+            steps {
+                println "Corriendo newman"
+                //push de la imagen
+            }
         }
         stage('Merge to Staging'){
 
-                      steps {
+            steps {
 
-                           script {
-                                result = null
-                           try {
-                            timeout(time:60, unit:'SECONDS') {
-                                input message: 'Do you want to merge?',
-                                      parameters: [[$class: 'BooleanParameterDefinition',
-                                                    defaultValue: false,
-                                                    description: '',
-                                                    name: 'Release']]
-                            }
-                            println "mergeando y pusheando a staging"
-                        } catch (err) {
-                            result = false
-                            println "Timeout for merge   reached"
-                        }
-                      }
-                }
+               script {
+                   result = null
+                   try {
+                    timeout(time:60, unit:'SECONDS') {
+                        input message: 'Do you want to merge?',
+                              parameters: [[$class: 'BooleanParameterDefinition',
+                                            defaultValue: false,
+                                            description: '',
+                                            name: 'Release']]
+                    }
+                    println "mergeando y pusheando a staging"
+                } catch (err) {
+                    result = false
+                    println "Timeout for merge   reached"
+                    }
+               }
+          }
+        }
+
     }
     post{
         always {
