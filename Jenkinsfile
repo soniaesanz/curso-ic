@@ -7,7 +7,7 @@ pipeline {
    agent any
     stages {
         stage('Build + Unit Test') {
-            println $BRANCH_NAME    
+
           agent {
                  docker {
                      image 'gradle:4.6.0-jdk8-alpine'
@@ -15,6 +15,7 @@ pipeline {
                  }
              }
              steps {
+             println $BRANCH_NAME
                 sh 'gradle build'
             }
         }
