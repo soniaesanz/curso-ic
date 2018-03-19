@@ -15,7 +15,6 @@ pipeline {
                  }
              }
              steps {
-             println $BRANCH_NAME
                 sh 'gradle build'
             }
         }
