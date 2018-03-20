@@ -17,7 +17,7 @@ agent any
              }
 
              steps {
-                sh 'gradle test
+                sh 'gradle test'
                 publishHTML (target: [
                              allowMissing: false,
                              alwaysLinkToLastBuild: false,
