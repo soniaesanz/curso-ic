@@ -8,28 +8,6 @@ pipeline {
 agent any
 
     stages {
-    stage('Integration Test'){
-           
-             agent {
-                   docker {
-                       image 'postman/newman_ubuntu1404'
-                       args '-v $WORKSPACE/postman-collection:/etc/newman --entrypoint=/bin/sh'
-                   }
-               }
-            steps {
-                
-                sh 'newman run "demo-api.json.postman_collection"     --environment="test.json.postman_environment" --reporters="html,cli" --reporter-html-export="newman-results.html"'
-
-                publishHTML (target: [
-                             allowMissing: false,
-                             alwaysLinkToLastBuild: false,
-                             keepAll: true,
-                             reportDir: 'postman-collection/newman',
-                             reportFiles: 'newman-run-report*.html',
-                             reportName: "Integration test result"
-                           ])
-            }
-        }
         stage('Build + Unit Test') {
             agent {
                  docker {
@@ -71,7 +49,22 @@ agent any
                 sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
             }
         }
-        
+        stage('Integration Test'){
+
+            steps {
+                //polemico necesito solución alternativa
+                sh 'docker run -v /var/lib/docker/volumes/jenkins-data/_data/workspace/demo-3_develop-PCXMIVKOQCVF5ZGT4TOCQXASPPPMZQZWMEO2JUUU4OGUCK6ZVN4Q/postman-collection:/etc/newman -t postman/newman_ubuntu1404     run "demo-api.json.postman_collection"     --environment="test.json.postman_environment"     --reporters="html,cli" --reporter-html-export="newman-results.html"'
+
+                publishHTML (target: [
+                             allowMissing: false,
+                             alwaysLinkToLastBuild: false,
+                             keepAll: true,
+                             reportDir: 'postman-collection/newman',
+                             reportFiles: 'newman-run-report*.html',
+                             reportName: "Integration test result"
+                           ])
+            }
+        }
        stage('Merge to Staging'){
             when { branch 'develop' }
              agent {
