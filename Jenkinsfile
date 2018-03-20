@@ -27,7 +27,7 @@ pipeline {
                 }
             steps {
 
-                 sh "gradle -DappVersion=latest buildImage -x test"
+               //  sh "gradle -DappVersion=latest buildImage -x test"
             }
         }
         stage('Deploy CI'){
@@ -44,7 +44,7 @@ pipeline {
                 //push de la imagen
             }
         }
-        stage('Merge to Staging'){
+    /*    stage('Merge to Staging'){
              agent {
                     docker {
                         image 'alpine/git'
@@ -72,7 +72,7 @@ pipeline {
                     }
                }
           }
-        }
+        }*/
 
     }
     post{
