@@ -12,8 +12,8 @@ agent any
            
              agent {
                    docker {
-                       image ' newman-alpine'
-                       args '-v $WORKSPACE/postman-collection:/etc/newman'
+                       image 'postman/newman_ubuntu1404'
+                       args '-v $WORKSPACE/postman-collection:/etc/newman --entrypoint=/bin/sh'
                    }
                }
             steps {
