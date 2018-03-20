@@ -35,10 +35,10 @@ agent any
                    }
                }
             steps {
-                 script{
-                    def version = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
-                 }
-                 sh "gradle -DappVersion=$version buildImage -x test"
+                     script{
+                        def version = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
+                         sh "gradle -DappVersion=$version buildImage -x test"
+                }
             }
         }
         stage('Deploy CI'){
