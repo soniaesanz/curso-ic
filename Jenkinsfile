@@ -17,7 +17,7 @@ pipeline {
              steps {
                 sh 'gradle build'
             }
-        }
+        }/*
         stage('Create docker image'){
              agent {
                     docker {
@@ -27,9 +27,9 @@ pipeline {
                 }
             steps {
 
-               //  sh "gradle -DappVersion=latest buildImage -x test"
+                 sh "gradle -DappVersion=latest buildImage -x test"
             }
-        }
+        }*/
         stage('Deploy CI'){
 
             steps {
