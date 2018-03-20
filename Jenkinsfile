@@ -53,7 +53,7 @@ agent any
 
             steps {
                 
-                sh 'docker run -v $HOME/postman-collection:/etc/newman -t postman/newman_ubuntu1404     run "demo-api.json.postman_collection"     --environment="test.json.postman_environment"     --reporters="html,cli" --reporter-html-export="newman-results.html"'
+                sh 'docker run -v $WORKSPACE/postman-collection:/etc/newman -t postman/newman_ubuntu1404     run "demo-api.json.postman_collection"     --environment="test.json.postman_environment"     --reporters="html,cli" --reporter-html-export="newman-results.html"'
 
                 publishHTML (target: [
                              allowMissing: false,
