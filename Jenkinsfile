@@ -28,14 +28,6 @@ agent any
         }
         stage('Create docker image'){
 
-            when {
-                anyOf {
-                    environment name: 'DEPLOY_TO', branch 'master'
-                    environment name: 'DEPLOY_TO', branch 'develop'
-                    }
-            }
-
-
             agent {
                    docker {
                        image 'gradle:4.6.0-jdk8-alpine'
@@ -44,9 +36,9 @@ agent any
                }
             steps {
                  script{
-                    def version = $DEPLOY_TO == master ? "build-${env.BUILD_NUMBER}" : "latest"
+                    def version = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
                  }
-                 sh "gradle -DappVersion=latest buildImage -x test"
+                 sh "gradle -DappVersion=$version buildImage -x test"
             }
         }
         stage('Deploy CI'){
