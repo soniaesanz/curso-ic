@@ -52,8 +52,17 @@ agent any
         stage('Integration Test'){
 
             steps {
-                println "Corriendo newman"
-                //push de la imagen
+                
+                sh 'docker run -v $HOME/postman-collection:/etc/newman -t postman/newman_ubuntu1404     run "demo-api.json.postman_collection"     --environment="test.json.postman_environment"     --reporters="html,cli" --reporter-html-export="newman-results.html"'
+
+                publishHTML (target: [
+                             allowMissing: false,
+                             alwaysLinkToLastBuild: false,
+                             keepAll: true,
+                             reportDir: 'postman-collection/newman',
+                             reportFiles: 'newman-run-report*.html',
+                             reportName: "Integration test result"
+                           ])
             }
         }
        stage('Merge to Staging'){
