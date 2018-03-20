@@ -7,10 +7,10 @@ agent any
 
     stages {
         stage('Build + Unit Test') {
-agent {
+            agent {
                        docker {
                            image 'gradle:4.6.0-jdk8-alpine'
-                           args '-v $HOME/.gradle:/home/gradle/.gradle -v $HOME:/home/build'
+                           args '-v $HOME/.gradle:/home/gradle/.gradle'
                        }
                    }
 
@@ -25,14 +25,30 @@ agent {
                                            reportName: "Test result"
                                          ])
             }
-        }/*
+        }
         stage('Create docker image'){
 
-            steps {
+            when {
+                anyOf {
+                    environment name: 'DEPLOY_TO', branch 'master'
+                    environment name: 'DEPLOY_TO', branch 'develop'
+                    }
+            }
 
+
+            agent {
+                   docker {
+                       image 'gradle:4.6.0-jdk8-alpine'
+                       args '-v $HOME/.gradle:/home/gradle/.gradle'
+                   }
+               }
+            steps {
+                 script{
+                    def version = $DEPLOY_TO == master ? "build-${env.BUILD_NUMBER}" : "latest"
+                 }
                  sh "gradle -DappVersion=latest buildImage -x test"
             }
-        }*/
+        }
         stage('Deploy CI'){
 
             steps {
@@ -47,7 +63,7 @@ agent {
                 //push de la imagen
             }
         }
-    /*    stage('Merge to Staging'){
+       stage('Merge to Staging'){
              agent {
                     docker {
                         image 'alpine/git'
@@ -75,22 +91,10 @@ agent {
                     }
                }
           }
-        }*/
+        }
 
     }
     post{
-        /*always {
-            publishHTML (target: [
-                           allowMissing: false,
-                           alwaysLinkToLastBuild: false,
-                           keepAll: true,
-                           reportDir: 'build/reports/tests/test',
-                           reportFiles: 'index.html',
-                           reportName: "Test result"
-                         ])
-
-
-         }*/
         failure {
                println "enviando mensaje al canal de slack $SLACK_CHANNEL"
                slackSend ( channel:SLACK_CHANNEL,
