@@ -10,22 +10,22 @@ agent any
     stages {
         stage('Build + Unit Test') {
             agent {
-                       docker {
-                           image 'gradle:4.6.0-jdk8-alpine'
-                           args '-v $HOME/.gradle:/home/gradle/.gradle'
-                       }
-                   }
+                 docker {
+                     image 'gradle:4.6.0-jdk8-alpine'
+                     args '-v $HOME/.gradle:/home/gradle/.gradle'
+                 }
+             }
 
              steps {
-                sh 'gradle build'
+                sh 'gradle test
                 publishHTML (target: [
-                                           allowMissing: false,
-                                           alwaysLinkToLastBuild: false,
-                                           keepAll: true,
-                                           reportDir: 'build/reports/tests/test',
-                                           reportFiles: 'index.html',
-                                           reportName: "Test result"
-                                         ])
+                             allowMissing: false,
+                             alwaysLinkToLastBuild: false,
+                             keepAll: true,
+                             reportDir: 'build/reports/tests/test',
+                             reportFiles: 'index.html',
+                             reportName: "Test result"
+                           ])
             }
         }
         stage('Create docker image'){
@@ -38,7 +38,7 @@ agent any
                }
             steps {
                  script{
-                    env.VERSION = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
+                     env.VERSION = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
                      sh "gradle -DappVersion=${env.VERSION} -DapiName=${env.API_NAME} buildImage -x test"
                 }
             }

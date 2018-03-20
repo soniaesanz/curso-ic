@@ -31,14 +31,11 @@ group = 'com.grupoesfera'
 version = appVersion
 sourceCompatibility = 1.8
 
-archivesBaseName = 'demo-api'
-def apiName = System.properties['apiName']?:'0.0.1-SNAPSHOT'
+def apiName = System.properties['apiName']?:'app'
 
-println "apiName[$apiName}"
+println "apiName[$apiName]"
+archivesBaseName = apiName
 
-if(apiName != null || apiName != ""){
-	archivesBaseName = apiName
-}
 
 repositories {
 	mavenCentral()
