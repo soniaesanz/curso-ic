@@ -2,6 +2,7 @@ pipeline {
      environment {
           MAIL = "matias.gonzalez@grupoesfera.com.ar"
           SLACK_CHANNEL = "demo-failed-jobs"
+          API_NAME = "demo-api"
 
     }
 agent any
@@ -45,7 +46,7 @@ agent any
         stage('Deploy CI'){
 
             steps {
-                sh "sh deploy-ci.sh demo-api ${env.VERSION}"
+                sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
             }
         }
         stage('Integration Test'){

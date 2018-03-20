@@ -25,7 +25,6 @@ apply plugin: 'com.gorylenko.gradle-git-properties'
 apply plugin: 'com.bmuschko.docker-java-application'
 
 def appVersion =  System.properties['appVersion']?:'0.0.1-SNAPSHOT'
-
 println "appVersion[$appVersion]"
 
 group = 'com.grupoesfera'
@@ -33,6 +32,13 @@ version = appVersion
 sourceCompatibility = 1.8
 
 archivesBaseName = 'demo-api'
+def apiName = System.properties['apiName']?:'0.0.1-SNAPSHOT'
+
+println "apiName[$apiName}"
+
+if(apiName != null || apiName != ""){
+	archivesBaseName = apiName
+}
 
 repositories {
 	mavenCentral()
@@ -57,8 +63,8 @@ dependencies {
 	dockerJava 'cglib:cglib:3.2.0'
 
 	//TEST DEPENDENCIES
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
+		testCompile('org.springframework.boot:spring-boot-starter-test')
+		testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
 	testCompile('cglib:cglib-nodep:3.2.2')
 	runtime('com.h2database:h2:1.4.196')
 }
