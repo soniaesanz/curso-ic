@@ -45,8 +45,7 @@ agent any
         stage('Deploy CI'){
 
             steps {
-                println "desplegando en CI la version ${env.VERSION}"
-                //push de la imagen
+                sh "sh deploy-ci.sh demo-api ${env.VERSION}"
             }
         }
         stage('Integration Test'){
