@@ -39,7 +39,7 @@ agent any
             steps {
                  script{
                     env.VERSION = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
-                     sh "gradle -DappVersion=${env.VERSION} buildImage -x test"
+                     sh "gradle -DappVersion=${env.VERSION} -DapiName=${env.API_NAME} buildImage -x test"
                 }
             }
         }
