@@ -16,6 +16,14 @@ agent {
 
              steps {
                 sh 'gradle build'
+                publishHTML (target: [
+                                           allowMissing: false,
+                                           alwaysLinkToLastBuild: false,
+                                           keepAll: true,
+                                           reportDir: 'build/reports/tests/test',
+                                           reportFiles: 'index.html',
+                                           reportName: "Test result"
+                                         ])
             }
         }/*
         stage('Create docker image'){
@@ -71,7 +79,7 @@ agent {
 
     }
     post{
-        always {
+        /*always {
             publishHTML (target: [
                            allowMissing: false,
                            alwaysLinkToLastBuild: false,
@@ -82,7 +90,7 @@ agent {
                          ])
 
 
-         }
+         }*/
         failure {
                println "enviando mensaje al canal de slack $SLACK_CHANNEL"
                slackSend ( channel:SLACK_CHANNEL,
