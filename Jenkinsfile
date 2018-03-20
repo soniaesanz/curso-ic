@@ -4,27 +4,22 @@ pipeline {
           SLACK_CHANNEL = "demo-failed-jobs"
     }
 
-   agent any
+         agent {
+                       docker {
+                           image 'gradle:4.6.0-jdk8-alpine'
+                           args '-v $HOME/.gradle:/home/gradle/.gradle -v $HOME:/home/build'
+                       }
+                   }
     stages {
         stage('Build + Unit Test') {
 
-          agent {
-                 docker {
-                     image 'gradle:4.6.0-jdk8-alpine'
-                     args '-v $HOME/.gradle:/home/gradle/.gradle'
-                 }
-             }
+      
              steps {
                 sh 'gradle build'
             }
         }/*
         stage('Create docker image'){
-             agent {
-                    docker {
-                        image 'gradle:4.6.0-jdk8-alpine'
-                        args '-v $HOME/.gradle:/home/gradle/.gradle -v $HOME:/home/build'
-                    }
-                }
+
             steps {
 
                  sh "gradle -DappVersion=latest buildImage -x test"
