@@ -57,6 +57,7 @@ agent any
             }
         }
        stage('Merge to Staging'){
+            when { branch 'develop' }
              agent {
                     docker {
                         image 'alpine/git'
