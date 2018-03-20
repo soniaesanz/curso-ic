@@ -2,6 +2,7 @@ pipeline {
      environment {
           MAIL = "matias.gonzalez@grupoesfera.com.ar"
           SLACK_CHANNEL = "demo-failed-jobs"
+
     }
 agent any
 
@@ -35,16 +36,16 @@ agent any
                    }
                }
             steps {
-                     script{
-                        def version = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
-                         sh "gradle -DappVersion=$version buildImage -x test"
+                 script{
+                    env.VERSION = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
+                     sh "gradle -DappVersion=${env.VERSION} buildImage -x test"
                 }
             }
         }
         stage('Deploy CI'){
 
             steps {
-                println "desplegando en CI la ultima version"
+                println "desplegando en CI la version ${env.VERSION}"
                 //push de la imagen
             }
         }
