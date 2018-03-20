@@ -32,7 +32,7 @@ group = 'com.grupoesfera'
 version = appVersion
 sourceCompatibility = 1.8
 
-archivesBaseName = 'demo'
+archivesBaseName = 'demo-api'
 
 repositories {
 	mavenCentral()
