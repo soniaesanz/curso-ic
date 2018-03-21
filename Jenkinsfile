@@ -40,7 +40,7 @@ agent any
         stage('Deploy CI'){
 
             steps {
-                sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
+               //    sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
                 //sh 'echo "aca va el deploy"'
             }
         }
