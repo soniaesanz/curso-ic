@@ -47,6 +47,8 @@ agent any
             steps {
                 //polemico necesito solución alternativa
                 sh 'docker run -v /var/lib/docker/volumes/jenkins-data/_data/workspace/demo-3_develop-PCXMIVKOQCVF5ZGT4TOCQXASPPPMZQZWMEO2JUUU4OGUCK6ZVN4Q/postman-collection:/etc/newman -t postman/newman_ubuntu1404     run "demo-api.json.postman_collection"  --disable-unicode    --environment="test.json.postman_environment" --reporters="junit,cli"'
+            junit 'postman-collection/newman/*.xml'
+     
             }
         }
        stage('Merge to Staging'){
@@ -81,15 +83,11 @@ agent any
         }
 
     }
-    post{
-    always{
-     
-     junit 'postman-collection/newman/*.xml'
-                
-    }
-        failure {
+   /* post{
+   
+       /* failure {
                println "enviando mensaje al canal de slack $SLACK_CHANNEL"
-               /*slackSend ( channel:SLACK_CHANNEL,
+               slackSend ( channel:SLACK_CHANNEL,
                             color: '#ff0000',
                             message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 
@@ -97,8 +95,8 @@ agent any
                   subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                   body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
                     <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-                  to: MAIL*/
+                  to: MAIL
              )
          }
-    }
+    }*/
 }
