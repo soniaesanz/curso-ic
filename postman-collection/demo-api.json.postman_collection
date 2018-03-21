@@ -1,58 +1,197 @@
 {
 	"info": {
-		"name": "demo-integration-test Copy",
-		"_postman_id": "7936ffbb-c1bf-4d1a-949d-e9efdc739775",
+		"name": "demo-integration-test",
+		"_postman_id": "aacf1286-a90e-4e72-91a3-2726602ffeb7",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "create",
-			"event": [
+			"name": "v1.0",
+			"description": "",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "da510864-22e3-4906-95ed-6d1d7d8d0461",
-						"type": "text/javascript",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"created-client-id\", jsonData.id);",
-							"    ",
-							"pm.test(\"The client is created\", function () {",
-							"    ",
-							"    pm.expect(jsonData).to.have.property('id');",
-							"});"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\"name\":\"pepe\",\n\"last_name\":\"grillo\"\n}"
-				},
-				"url": {
-					"raw": "http://{{server}}:{{port}}/clients/v1.0",
-					"protocol": "http",
-					"host": [
-						"{{server}}"
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da510864-22e3-4906-95ed-6d1d7d8d0461",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"created-client-id\", jsonData.id);",
+									"    ",
+									"pm.test(\"The client is created\", function () {",
+									"    ",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"});"
+								]
+							}
+						}
 					],
-					"port": "{{port}}",
-					"path": [
-						"clients",
-						"v1.0"
-					]
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\":\"pepe\",\n\"last_name\":\"grillo\"\n}"
+						},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/clients/v1.0",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"clients",
+								"v1.0"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"name": "get one client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3b1f3086-a0d0-4e45-92eb-c41b74b41d08",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"The client is created\", function () {",
+									"    ",
+									"    pm.expect(jsonData.name).to.eq('pepe');",
+									"    ",
+									"    pm.expect(jsonData.last_name).to.eq('grillo');",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/clients/v1.0/{{created-client-id}}",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"clients",
+								"v1.0",
+								"{{created-client-id}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete created",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e05cfaf0-3a61-4e27-800c-b5262de6de78",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"id\":{{created-client-id}},\t\n\"name\":\"pepe\",\n\"last_name\":\"grillo9\"\n}"
+						},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/clients/v1.0",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"clients",
+								"v1.0"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b97c985f-b976-4af2-bc09-c9f7e413e599",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\":\"pepe\",\n\"last_name\":\"grillo\"\n}"
+						},
+						"url": {
+							"raw": "http://{{server}}:{{port}}/clients/v1.0/{{created-client-id}}",
+							"protocol": "http",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"clients",
+								"v1.0",
+								"{{created-client-id}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
