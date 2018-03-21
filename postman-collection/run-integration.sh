@@ -5,6 +5,6 @@
 #--disable-unicode  --environment="test.json.postman_environment" \
 #--reporters="junit,cli"
 
-run "demo-api.json.postman_collection"  \
+newman run "demo-api.json.postman_collection"  \
  --disable-unicode  --environment="test.json.postman_environment" \
  reporters="junit,cli"
