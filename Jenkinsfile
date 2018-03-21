@@ -5,14 +5,22 @@ pipeline {
   API_NAME = "demo-api"
   API_CI_URL = "http://192.168.8.162:9090/"
   OK_DEPLOY_SRING = "{'status':'UP'}"
-  CHECK_OUT_CI_IS_COMPLETE = '''
-        while('curl ${env.API_CI_URL}actuator/health'.execute().text != '{"status":"UP"}')true
-  '''
+  GROOVY_CI = '''while('curl http://192.168.8.162:9090/actuator/health'.execute().text != '{"status":"UP"}')true'''
  }
  agent any
 
  stages {
+    stage('Integration Test') {
 
+       steps {
+
+        sh "echo 'waiting IC deploy'"
+        sh "${env.GROOVY_CI}"
+        sh "docker run --rm groovy:latest groovy -e ${env.GROOVY_CI}"
+        sh "echo 'IC deploy complete'"
+        sh 'sh postman-collection/run-integration.sh'
+       }
+      }
   stage('Build + Unit Test') {
    agent {
     docker {
@@ -47,17 +55,7 @@ pipeline {
     sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
    }
   }
-  stage('Integration Test') {
 
-   steps {
-
-    sh "echo 'waiting IC deploy'"
-    sh "${env.CHECK_OUT_CI_IS_COMPLETE}"
-    sh "docker run --rm groovy:latest groovy -e ${env.CHECK_OUT_CI_IS_COMPLETE}"
-    sh "echo 'IC deploy complete'"
-    sh 'sh postman-collection/run-integration.sh'
-   }
-  }
   stage('Merge to Staging') {
    when {
     branch 'develop'
