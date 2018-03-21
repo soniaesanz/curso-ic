@@ -4,7 +4,6 @@ pipeline {
   SLACK_CHANNEL = "demo-failed-jobs"
   API_NAME = "demo-api"
   API_CI_URL = "http://192.168.8.162:9090/"
-  OK_DEPLOY_SRING = "{'status':'UP'}"
 
  }
  agent any
@@ -14,10 +13,7 @@ pipeline {
 
        steps {
 
-        sh "echo 'waiting IC deploy'"
-        println"${env.GROOVY_CI}"
-        sh "docker run --rm groovy:latest groovy -e 'while(\'curl http://192.168.8.162:9090/actuator/health\'.execute().text != \'{\"status\":\"UP\"}\')true'"
-        sh "echo 'IC deploy complete'"
+        sh 'docker run --rm -v $WORKSPACE/postman-collection:/home/groovy/script -w /home/groovy/script groovy:latest groovy wait-ic.groovy ${env.API_CI_URL}'
         sh 'sh postman-collection/run-integration.sh'
        }
       }
