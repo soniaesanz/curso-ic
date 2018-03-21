@@ -8,20 +8,7 @@ pipeline {
 agent any
 
     stages {
-    stage('Integration Test'){
-            agent {
-                 docker {
-                     image 'newman-alpine'
-                     args '-v $WORKSPACE/postman-collection:/etc/newman'
-                 }
-            }
-            steps {
-                //polemico necesito solución alternativa
-                sh 'ls postman-collection'
-                sh 'sh postman-collection/run-integration.sh'
-              
-            }
-        }
+
         stage('Build + Unit Test') {
             agent {
                  docker {
@@ -56,7 +43,18 @@ agent any
                 sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
             }
         }
-          
+         stage('Integration Test'){
+            agent {
+                 docker {
+                     image 'newman-alpine'
+                     args '-v $WORKSPACE/postman-collection:/etc/newman'
+                 }
+            }
+            steps {
+                sh 'sh postman-collection/run-integration.sh'
+              
+            }
+        }
        stage('Merge to Staging'){
             when { branch 'develop' }
              agent {
