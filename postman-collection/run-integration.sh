@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 sleep 2m
 
 docker run --rm -v $WORKSPACE/postman-collection:/etc/newman  \
