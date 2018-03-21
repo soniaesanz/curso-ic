@@ -9,14 +9,7 @@ pipeline {
  agent any
 
  stages {
-    stage('Integration Test') {
 
-       steps {
-
-        sh "docker run --rm -v $WORKSPACE/postman-collection:/home/groovy/script -w /home/groovy/script groovy:latest groovy wait-ic.groovy ${env.API_CI_URL}"
-        sh 'sh postman-collection/run-integration.sh'
-       }
-      }
   stage('Build + Unit Test') {
    agent {
     docker {
@@ -51,6 +44,14 @@ pipeline {
     sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
    }
   }
+   stage('Integration Test') {
+
+         steps {
+
+          sh "docker run --rm -v $WORKSPACE/postman-collection:/home/groovy/script -w /home/groovy/script groovy:latest groovy wait-ic.groovy ${env.API_CI_URL}"
+          sh 'sh postman-collection/run-integration.sh'
+         }
+        }
 
   stage('Merge to Staging') {
    when {
