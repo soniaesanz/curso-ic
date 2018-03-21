@@ -17,7 +17,6 @@ agent any
             }
             steps {
                 //polemico necesito solución alternativa
-                sh 'ls'
                 sh 'sh postman-collection/run-integration.sh'
               
             }
