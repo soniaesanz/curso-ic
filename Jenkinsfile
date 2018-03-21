@@ -48,7 +48,6 @@ agent any
                 //polemico necesito solución alternativa
                 sh 'docker run -v /var/lib/docker/volumes/jenkins-data/_data/workspace/demo-3_develop-PCXMIVKOQCVF5ZGT4TOCQXASPPPMZQZWMEO2JUUU4OGUCK6ZVN4Q/postman-collection:/etc/newman  postman/newman_ubuntu1404     run "demo-api.json.postman_collection"  --disable-unicode    --environment="test.json.postman_environment" --reporters="junit,cli"'
             
-     
             }
         }
        stage('Merge to Staging'){
@@ -84,8 +83,9 @@ agent any
 
     }
     post{
-      always{
-        junit 'postman-collection/newman/*.xml'
+    always{
+    junit 'postman-collection/newman/*.xml'
+     
     }
    /*
        /* failure {
@@ -100,6 +100,6 @@ agent any
                     <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
                   to: MAIL
              )
-         }
-    }*/
+         }*/
+    }
 }
