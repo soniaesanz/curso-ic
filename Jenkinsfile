@@ -44,14 +44,14 @@ pipeline {
     sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
    }
   }
-   stage('Integration Test') {
+  stage('Integration Test') {
 
-         steps {
+   steps {
 
-          sh "docker run --rm -v $WORKSPACE/postman-collection:/home/groovy/script -w /home/groovy/script groovy:latest groovy wait-ic.groovy ${env.API_CI_URL}"
-          sh 'sh postman-collection/run-integration.sh'
-         }
-        }
+    sh "docker run --rm -v $WORKSPACE/postman-collection:/home/groovy/script -w /home/groovy/script groovy:latest groovy wait-ic.groovy ${env.API_CI_URL}"
+    sh 'sh postman-collection/run-integration.sh'
+   }
+  }
 
   stage('Merge to Staging') {
    when {
@@ -94,19 +94,22 @@ pipeline {
   always {
    junit 'postman-collection/newman/*.xml'
   }
-  /*
-      /* failure {
-              println "enviando mensaje al canal de slack $SLACK_CHANNEL"
-              slackSend ( channel:SLACK_CHANNEL,
-                           color: '#ff0000',
-                           message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  failure {
+   println "enviando mensaje al canal de slack $SLACK_CHANNEL"
+   slackSend(channel: SLACK_CHANNEL,
+    color: '#ff0000',
+    message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 
-               emailext (
-                 subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                 body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                   <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-                 to: MAIL
-            )
-        }*/
+   emailext(
+    subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+    body: ""
+    "<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p> < p > Check console output at & QUOT; < a href = '${env.BUILD_URL}' > $ {
+     env.JOB_NAME
+    }[$ {
+     env.BUILD_NUMBER
+    }] < /a>&QUOT;</p > ""
+    ",
+    to: MAIL
+   )
+  }
  }
-}
