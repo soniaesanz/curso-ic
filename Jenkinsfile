@@ -52,8 +52,9 @@ pipeline {
     "curl http://192.168.8.162:9090/actuator/health".execute().text != '{"status":"UP"}')
     esto ultimo no se puede usar porque no estan permitidos los metodos staticos en el pipeline
     */
-
-    sh 'sleep 20s'
+    sh "waiting IC deploy"
+    sh 'docker run --rm groovy:latest groovy -e "while(\'curl http://192.168.8.162:9090/actuator/health\'.execute().text != '{\"status\":\"UP\"}')true"'
+    sh "IC deploy complete"
     sh 'sh postman-collection/run-integration.sh'
    }
   }
