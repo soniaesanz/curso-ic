@@ -9,11 +9,16 @@ agent any
 
     stages {
     stage('Integration Test'){
-
+            agent {
+                 docker {
+                     image 'newman-alpine'
+                     args '-v $WORKSPACE/postman-collection:/etc/newman'
+                 }
+            }
             steps {
                 //polemico necesito solución alternativa
                 sh 'postman-collection/run-integration.sh'
-            
+              
             }
         }
         stage('Build + Unit Test') {
@@ -85,8 +90,7 @@ agent any
     }
     post{
     always{
-    junit 'postman-collection/newman/*.xml'
-     
+      junit 'postman-collection/newman/*.xml'
     }
    /*
        /* failure {
