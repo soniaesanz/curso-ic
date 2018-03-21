@@ -24,26 +24,7 @@ agent any
                            ])
             }
         }
-        stage('Build + Unit Test') {
-            agent {
-                 docker {
-                     image 'gradle:4.6.0-jdk8-alpine'
-                     args '-v $HOME/.gradle:/home/gradle/.gradle'
-                 }
-             }
-
-             steps {
-                sh 'gradle test'
-                publishHTML (target: [
-                             allowMissing: false,
-                             alwaysLinkToLastBuild: false,
-                             keepAll: true,
-                             reportDir: 'build/reports/tests/test',
-                             reportFiles: 'index.html',
-                             reportName: "Test result"
-                           ])
-            }
-        }
+        
         stage('Create docker image'){
 
             agent {
@@ -63,6 +44,26 @@ agent any
 
             steps {
                 sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
+            }
+        }
+        stage('Build + Unit Test') {
+            agent {
+                 docker {
+                     image 'gradle:4.6.0-jdk8-alpine'
+                     args '-v $HOME/.gradle:/home/gradle/.gradle'
+                 }
+             }
+
+             steps {
+                sh 'gradle test'
+                publishHTML (target: [
+                             allowMissing: false,
+                             alwaysLinkToLastBuild: false,
+                             keepAll: true,
+                             reportDir: 'build/reports/tests/test',
+                             reportFiles: 'index.html',
+                             reportName: "Test result"
+                           ])
             }
         }
        
