@@ -94,18 +94,4 @@ pipeline {
   always {
    junit 'postman-collection/newman/*.xml'
   }
-  failure {
-   println "enviando mensaje al canal de slack $SLACK_CHANNEL"
-
-   slackSend(channel: SLACK_CHANNEL,
-    color: '#ff0000',
-    message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-
-   emailext(
-    subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-    body: """
-    FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at & QUOT; < a href = '${env.BUILD_URL}' > ${env.JOB_NAME}[${env.BUILD_NUMBER}]
-    """,to: MAIL
-   )
-  }
  }
