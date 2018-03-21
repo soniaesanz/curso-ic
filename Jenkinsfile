@@ -1,111 +1,116 @@
 pipeline {
-     environment {
-          MAIL = "matias.gonzalez@grupoesfera.com.ar"
-          SLACK_CHANNEL = "demo-failed-jobs"
-          API_NAME = "demo-api"
+ environment {
+  MAIL = "matias.gonzalez@grupoesfera.com.ar"
+  SLACK_CHANNEL = "demo-failed-jobs"
+  API_NAME = "demo-api"
+  API_CI_URL = "http://192.168.8.162:9090/"
+ }
+ agent any
 
+ stages {
+
+  stage('Build + Unit Test') {
+   agent {
+    docker {
+     image 'gradle:4.6.0-jdk8-alpine'
+     args '-v $HOME/.gradle:/home/gradle/.gradle'
     }
-agent any
+   }
 
-    stages {
+   steps {
+    sh 'gradle test'
+    junit 'build/test-results/test/*.xml'
+   }
+  }
+  stage('Create docker image') {
 
-        stage('Build + Unit Test') {
-            agent {
-                 docker {
-                     image 'gradle:4.6.0-jdk8-alpine'
-                     args '-v $HOME/.gradle:/home/gradle/.gradle'
-                 }
-             }
-
-             steps {
-                sh 'gradle test'
-                junit 'build/test-results/test/*.xml'
-            }
-        }
-        stage('Create docker image'){
-
-            agent {
-                   docker {
-                       image 'gradle:4.6.0-jdk8-alpine'
-                       args '-v $HOME/.gradle:/home/gradle/.gradle'
-                   }
-               }
-            steps {
-                 script{
-                     env.VERSION = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
-                     sh "gradle -DappVersion=${env.VERSION} -DapiName=${env.API_NAME} buildImage -x test"
-                }
-            }
-        }
-        stage('Deploy CI'){
-
-            steps {
-                   sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
-              //sh 'echo "aca va el deploy"'
-            }
-        }
-         stage('Integration Test'){
-
-            steps {
-                script{
-                  while("curl http://192.168.8.162:9090/actuator/health".execute().text != '{"status":"UP"}') {
-                    
-                    println "wait 1 second"
-                    
-                  }
-                }
-                sh 'sh postman-collection/run-integration.sh'
-            }
-        }
-       stage('Merge to Staging'){
-            when { branch 'develop' }
-             agent {
-                    docker {
-                        image 'alpine/git'
-                        args '-v $HOME:/home/build'
-                    }
-                }
-            steps {
-
-               script {
-                   result = null
-                   try {
-                    timeout(time:60, unit:'SECONDS') {
-                        input message: 'Do you want to merge?',
-                              parameters: [[$class: 'BooleanParameterDefinition',
-                                            defaultValue: false,
-                                            description: '',
-                                            name: 'Release']]
-                    }
-
-                    sh "git tag  build-${env.BUILD_NUMBER}"
-
-                } catch (err) {
-                    result = false
-                    println "Timeout for merge   reached"
-                    }
-               }
-          }
-        }
-
+   agent {
+    docker {
+     image 'gradle:4.6.0-jdk8-alpine'
+     args '-v $HOME/.gradle:/home/gradle/.gradle'
     }
-    post{
-    always{
-      junit 'postman-collection/newman/*.xml'
+   }
+   steps {
+    script {
+     env.VERSION = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
+     sh "gradle -DappVersion=${env.VERSION} -DapiName=${env.API_NAME} buildImage -x test"
     }
-   /*
-       /* failure {
-               println "enviando mensaje al canal de slack $SLACK_CHANNEL"
-               slackSend ( channel:SLACK_CHANNEL,
-                            color: '#ff0000',
-                            message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+   }
+  }
+  stage('Deploy CI') {
 
-                emailext (
-                  subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                  body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                    <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-                  to: MAIL
-             )
-         }*/
+   steps {
+    sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
+   }
+  }
+  stage('Integration Test') {
+
+   steps {
+    /*
+    esto hay que cambiarlo para que espere a que este desplegado
+    usando algo asi
+    "curl http://192.168.8.162:9090/actuator/health".execute().text != '{"status":"UP"}')
+    esto ultimo no se puede usar porque no estan permitidos los metodos staticos en el pipeline
+    */
+
+    sh 'sleep 20s'
+    sh 'sh postman-collection/run-integration.sh'
+   }
+  }
+  stage('Merge to Staging') {
+   when {
+    branch 'develop'
+   }
+   agent {
+    docker {
+     image 'alpine/git'
+     args '-v $HOME:/home/build'
     }
+   }
+   steps {
+
+    script {
+     result = null
+     try {
+      timeout(time: 60, unit: 'SECONDS') {
+       input message: 'Do you want to merge?',
+        parameters: [
+         [$class: 'BooleanParameterDefinition',
+          defaultValue: false,
+          description: '',
+          name: 'Release'
+         ]
+        ]
+      }
+
+      sh "git tag  build-${env.BUILD_NUMBER}"
+
+     } catch (err) {
+      result = false
+      println "Timeout for merge   reached"
+     }
+    }
+   }
+  }
+
+ }
+ post {
+  always {
+   junit 'postman-collection/newman/*.xml'
+  }
+  /*
+      /* failure {
+              println "enviando mensaje al canal de slack $SLACK_CHANNEL"
+              slackSend ( channel:SLACK_CHANNEL,
+                           color: '#ff0000',
+                           message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+
+               emailext (
+                 subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                 body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                   <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+                 to: MAIL
+            )
+        }*/
+ }
 }
