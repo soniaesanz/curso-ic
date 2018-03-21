@@ -4,7 +4,8 @@
 #postman/newman_ubuntu1404  run "demo-api.json.postman_collection"  \
 #--disable-unicode  --environment="test.json.postman_environment" \
 #--reporters="junit,cli"
-
+pwd
+ls
 newman run "demo-api.json.postman_collection"  \
  --disable-unicode  --environment="test.json.postman_environment" \
  reporters="junit,cli"
