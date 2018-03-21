@@ -15,7 +15,7 @@ pipeline {
        steps {
 
         sh "echo 'waiting IC deploy'"
-        sh "echo ${env.GROOVY_CI}"
+        println"${env.GROOVY_CI}"
         sh "docker run --rm groovy:latest groovy -e ${env.GROOVY_CI}"
         sh "echo 'IC deploy complete'"
         sh 'sh postman-collection/run-integration.sh'
