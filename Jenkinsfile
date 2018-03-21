@@ -18,7 +18,7 @@ agent any
 
              steps {
                 sh 'gradle test'
-               
+                junit 'build/test-results/test/*.xml'
             }
         }
         stage('Create docker image'){
@@ -83,7 +83,7 @@ agent any
     }
     post{
     always{
-     junit 'build/test-results/test/*.xml'
+     
      junit 'postman-collection/newman/*.xml'
                 
     }
