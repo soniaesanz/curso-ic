@@ -95,3 +95,4 @@ pipeline {
    junit 'postman-collection/newman/*.xml'
   }
  }
+}
