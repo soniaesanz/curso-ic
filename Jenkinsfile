@@ -18,14 +18,8 @@ agent any
 
              steps {
                 sh 'gradle test'
-                publishHTML (target: [
-                             allowMissing: false,
-                             alwaysLinkToLastBuild: false,
-                             keepAll: true,
-                             reportDir: 'build/reports/tests/test',
-                             reportFiles: 'index.html',
-                             reportName: "Test result"
-                           ])
+                junit 'build/test-results/test/*.xml'
+                
             }
         }
         stage('Create docker image'){
