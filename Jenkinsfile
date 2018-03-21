@@ -5,8 +5,8 @@ pipeline {
   API_NAME = "demo-api"
   API_CI_URL = "http://192.168.8.162:9090/"
   OK_DEPLOY_SRING = "{'status':'UP'}"
-  CURL_STRING = '''
-        while('curl http://192.168.8.162:9090/actuator/health'.execute().text != '{"status":"UP"}')true
+  CHECK_OUT_CI_IS_COMPLETE = '''
+        while('curl ${env.API_CI_URL}actuator/health'.execute().text != '{"status":"UP"}')true
   '''
  }
  agent any
@@ -52,7 +52,8 @@ pipeline {
    steps {
 
     sh "echo 'waiting IC deploy'"
-    sh "docker run --rm groovy:latest groovy -e ${env.CURL_STRING}"
+    sh "${env.CHECK_OUT_CI_IS_COMPLETE}"
+    sh "docker run --rm groovy:latest groovy -e ${env.CHECK_OUT_CI_IS_COMPLETE}"
     sh "echo 'IC deploy complete'"
     sh 'sh postman-collection/run-integration.sh'
    }
