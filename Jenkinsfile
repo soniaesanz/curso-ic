@@ -8,6 +8,14 @@ pipeline {
 agent any
 
     stages {
+    stage('Integration Test'){
+
+            steps {
+                //polemico necesito solución alternativa
+                sh 'postman-collection/run-integration.sh'
+            
+            }
+        }
         stage('Build + Unit Test') {
             agent {
                  docker {
@@ -42,14 +50,7 @@ agent any
                 sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
             }
         }
-          stage('Integration Test'){
-
-            steps {
-                //polemico necesito solución alternativa
-                sh 'postman-collection/run-integration.sh'
-            
-            }
-        }
+          
        stage('Merge to Staging'){
             when { branch 'develop' }
              agent {
