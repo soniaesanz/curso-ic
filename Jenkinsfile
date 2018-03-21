@@ -40,19 +40,17 @@ agent any
         stage('Deploy CI'){
 
             steps {
-                sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
+            //    sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
             }
         }
          stage('Integration Test'){
-            /*agent {
-                 docker {
-                     image 'newman-alpine'
-                     args '-v $WORKSPACE/postman-collection:/etc/newman'
-                 }
-            }*/
+
             steps {
-                sh 'sh postman-collection/run-integration.sh'
-              
+                sh 'docker run -v $WORKSPACE/postman-collection:/etc/newman  \
+                    postman/newman_ubuntu1404  run "demo-api.json.postman_collection"  \
+                    --disable-unicode  --environment="test.json.postman_environment" \
+                    --reporters="junit,cli"'
+
             }
         }
        stage('Merge to Staging'){
