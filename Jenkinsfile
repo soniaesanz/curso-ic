@@ -44,12 +44,12 @@ agent any
             }
         }
          stage('Integration Test'){
-            agent {
+            /*agent {
                  docker {
                      image 'newman-alpine'
                      args '-v $WORKSPACE/postman-collection:/etc/newman'
                  }
-            }
+            }*/
             steps {
                 sh 'sh postman-collection/run-integration.sh'
               
