@@ -4,6 +4,8 @@ pipeline {
   SLACK_CHANNEL = "demo-failed-jobs"
   API_NAME = "demo-api"
   API_CI_URL = "http://192.168.8.162:9090/"
+  OK_DEPLOY_SRING = "{'status':'UP'}"
+  CURL_STRING = "curl http://192.168.8.162:9090/actuator/health"
  }
  agent any
 
@@ -53,7 +55,7 @@ pipeline {
     esto ultimo no se puede usar porque no estan permitidos los metodos staticos en el pipeline
     */
     sh "waiting IC deploy"
-    sh 'docker run --rm groovy:latest groovy -e "while(\'curl http://192.168.8.162:9090/actuator/health\'.execute().text != '{\"status\":\"UP\"}')true"'
+    sh 'docker run --rm groovy:latest groovy -e "while(${env.CURL_STRING}.execute().text != ${env.OK_DEPLOY_SRING})true"'
     sh "IC deploy complete"
     sh 'sh postman-collection/run-integration.sh'
    }
