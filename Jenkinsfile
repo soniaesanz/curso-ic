@@ -13,7 +13,7 @@ pipeline {
 
        steps {
 
-        sh 'docker run --rm -v $WORKSPACE/postman-collection:/home/groovy/script -w /home/groovy/script groovy:latest groovy wait-ic.groovy ${env.API_CI_URL}'
+        sh "docker run --rm -v $WORKSPACE/postman-collection:/home/groovy/script -w /home/groovy/script groovy:latest groovy wait-ic.groovy ${env.API_CI_URL}"
         sh 'sh postman-collection/run-integration.sh'
        }
       }
