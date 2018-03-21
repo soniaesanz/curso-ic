@@ -16,7 +16,7 @@ pipeline {
 
         sh "echo 'waiting IC deploy'"
         println"${env.GROOVY_CI}"
-        sh ${env.GROOVY_CI}
+        sh '${env.GROOVY_CI}'
         sh "echo 'IC deploy complete'"
         sh 'sh postman-collection/run-integration.sh'
        }
