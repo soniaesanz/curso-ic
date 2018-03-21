@@ -17,6 +17,7 @@ agent any
             }
             steps {
                 //polemico necesito solución alternativa
+                sh 'ls'
                 sh 'run-integration.sh'
               
             }
