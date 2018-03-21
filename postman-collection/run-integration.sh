@@ -6,6 +6,6 @@
 #--reporters="junit,cli"
 pwd
 ls
-newman run "demo-api.json.postman_collection"  \
- --disable-unicode  --environment="test.json.postman_environment" \
+newman run "postman-collection/demo-api.json.postman_collection"  \
+ --disable-unicode  --environment="postman-collection/test.json.postman_environment" \
  reporters="junit,cli"
