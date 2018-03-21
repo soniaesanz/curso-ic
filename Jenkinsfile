@@ -41,7 +41,7 @@ agent any
 
             steps {
             //    sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
-                sh 'echo "aca va el deploy"'s
+                sh 'echo "aca va el deploy"'
             }
         }
          stage('Integration Test'){
