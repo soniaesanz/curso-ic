@@ -5,7 +5,7 @@ pipeline {
   API_NAME = "demo-api"
   API_CI_URL = "http://192.168.8.162:9090/"
   OK_DEPLOY_SRING = "{'status':'UP'}"
-  GROOVY_CI = '''docker run --rm groovy:latest groovy -e while('curl http://192.168.8.162:9090/actuator/health'.execute().text != '{"status":"UP"}')true'''
+  GROOVY_CI = '''docker run --rm groovy:latest groovy -e 'while(\'curl http://192.168.8.162:9090/actuator/health\'.execute().text != \'{"status":"UP"}\')true''''
  }
  agent any
 
