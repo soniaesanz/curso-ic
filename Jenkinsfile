@@ -5,7 +5,10 @@ pipeline {
   API_NAME = "demo-api"
   API_CI_URL = "http://192.168.8.162:9090/"
   OK_DEPLOY_SRING = "{'status':'UP'}"
-  CURL_STRING = "'curl http://192.168.8.162:9090/actuator/health'"
+  CURL_STRING = '''
+  'curl http://192.168.8.162:9090/actuator/health'"
+  '''
+  //while(${env.CURL_STRING}.execute().text != ${env.OK_DEPLOY_SRING})true'
  }
  agent any
 
