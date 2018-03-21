@@ -47,6 +47,13 @@ agent any
          stage('Integration Test'){
 
             steps {
+                script{
+                  while("curl http://192.168.8.162:9090/actuator/health".execute().text != '{"status":"UP"}') {
+                    
+                    println "wait 1 second"
+                    sleep(1000)
+                  }
+                }
                 sh 'sh postman-collection/run-integration.sh'
             }
         }
