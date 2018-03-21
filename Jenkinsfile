@@ -8,7 +8,6 @@ pipeline {
   CURL_STRING = '''
         groovy -e "while('curl http://192.168.8.162:9090/actuator/health'.execute().text != '{"status":"UP"}')true"
   '''
-  '
  }
  agent any
 
