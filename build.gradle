@@ -101,13 +101,12 @@ task pushImage(type: DockerPushImage) {
 // ===== End Docker
 
 
-//systemProp.
+
+//Hay que configurar la property sonar.projectKey porque el nomrbe del proyecto que
+// genera jenkis usa un '@' en el path y a sonar no le gusta
 sonarqube {
 	properties {
 		property "sonar.junit.reportPaths" , "build/sonar"
-		property "sonar.projectName" , "demoapir"
 		property "sonar.projectKey" , "${project.group}:demo-api"
-		
-   //     property "sonar.tests" , "src/test/groovy,src/test/java"
 	}
 }
