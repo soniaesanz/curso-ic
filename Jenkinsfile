@@ -21,7 +21,7 @@ pipeline {
 
    steps {
     sh 'gradle test'
-    sh "gradle -Dsonar.host.url='${env.SONAR_URL}' sonarqube ""
+    sh "gradle -Dsonar.host.url='${env.SONAR_URL}' sonarqube "
 
     junit 'build/test-results/test/*.xml'
    }
