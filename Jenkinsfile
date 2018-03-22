@@ -20,7 +20,10 @@ pipeline {
 
    steps {
     sh 'gradle test'
-    sh 'gradle sonarqube'
+     withSonarQubeEnv('192.168.8.162') {
+        sh 'gradle sonarqube'
+     }
+
     junit 'build/test-results/test/*.xml'
    }
   }
