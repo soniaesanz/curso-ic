@@ -99,3 +99,13 @@ task pushImage(type: DockerPushImage) {
 	tag = app.version
 }*/
 // ===== End Docker
+
+
+//systemProp.
+sonarqube {
+	properties {
+		property "sonar.junit.reportPaths" , "build/sonar"
+		property "sonar.projectName" , "demoapir"
+   //     property "sonar.tests" , "src/test/groovy,src/test/java"
+	}
+}
