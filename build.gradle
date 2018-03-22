@@ -106,6 +106,8 @@ sonarqube {
 	properties {
 		property "sonar.junit.reportPaths" , "build/sonar"
 		property "sonar.projectName" , "demoapir"
+		property "sonar.projectKey" , "${project.group}:${project.name}"
+		
    //     property "sonar.tests" , "src/test/groovy,src/test/java"
 	}
 }
