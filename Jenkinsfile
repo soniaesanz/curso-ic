@@ -10,7 +10,7 @@ pipeline {
 
  stages {
 
-  stage('Build + Unit Test') {
+  stage('Unit Test + sonar') {
    agent {
     docker {
      image 'gradle:4.6.0-jdk8-alpine'
@@ -20,6 +20,7 @@ pipeline {
 
    steps {
     sh 'gradle test'
+    sh 'gradle sonarqube'
     junit 'build/test-results/test/*.xml'
    }
   }
