@@ -8,6 +8,9 @@ pipeline {
 
  }
  agent any
+
+ stages {
+
   stage('Unit Test + sonar') {
    agent {
     docker {
@@ -119,6 +122,11 @@ pipeline {
            }
          }
       }
+  }
+  stage('Clean workspace'){
+    steps{
+      deleteDir
+    }
   }
  }
  post {
