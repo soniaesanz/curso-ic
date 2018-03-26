@@ -37,7 +37,7 @@ pipeline {
    }
    steps {
     script {
-     env.VERSION = env.BRANCH_NAME == "master" ? "build-${env.BUILD_NUMBER}" : "latest"
+     env.VERSION = env.BRANCH_NAME == "develop" ? "latest" : "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"  
      sh "gradle -DappVersion=${env.VERSION} -DapiName=${env.API_NAME} buildImage -x test"
     }
    }
