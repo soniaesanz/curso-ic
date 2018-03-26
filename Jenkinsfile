@@ -120,12 +120,6 @@ pipeline {
          }
       }
   }
-  stage('Deploy QA'){
-    steps{
-      deleteDir()
-    }
-  }  
-
  }
  post {
   always {
