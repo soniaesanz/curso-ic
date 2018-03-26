@@ -21,7 +21,7 @@ pipeline {
 
    steps {
     sh 'gradle test'
-    sh "gradle -Dsonar.host.url='${env.SONAR_URL}' sonarqube "
+    sh "gradle -Dsonar.host.url='${env.SONAR_URL}' sonarqube -x test"
 
     junit 'build/test-results/test/*.xml'
    }
@@ -44,18 +44,23 @@ pipeline {
   stage('Deploy CI') {
 
    steps {
-    sh "sh deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
+    sh "sh scripts/ci/deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
    }
   }
   stage('Integration Test') {
 
    steps {
 
-    sh "docker run --rm -v $WORKSPACE/postman-collection:/home/groovy/script -w /home/groovy/script groovy:latest groovy wait-ic.groovy ${env.API_CI_URL}"
-    sh 'sh postman-collection/run-integration.sh'
+    sh "docker run --rm -v $WORKSPACE/integration-test:/home/groovy/script -w /home/groovy/script groovy:latest groovy wait-ic.groovy ${env.API_CI_URL}"
+    sh 'sh integration-test/run-integration.sh'
    }
   }
+    stage('Stop CI') {
 
+     steps {
+      sh "sh scripts/ci/deploy-ci.sh ${env.API_NAME} ${env.VERSION}"
+     }
+  }
   stage('Merge to Staging') {
    when {
     branch 'develop'
@@ -67,7 +72,6 @@ pipeline {
     }
    }
    steps {
-
     script {
      result = null
      try {
@@ -91,11 +95,38 @@ pipeline {
     }
    }
   }
+  stage('Deploy QA'){
+   when {
+      branch 'staging'
+     }
+      steps {
+      script {
+           result = null
+           try {
+            timeout(time: 60, unit: 'SECONDS') {
+             input message: 'Deploy to Staging',
+              parameters: [
+               [$class: 'BooleanParameterDefinition',
+                defaultValue: false,
+                description: '',
+                name: 'Release'
+               ]
+              ]
+            }
 
+            sh "echo 'aca va el deploy'"
+
+           } catch (err) {
+            result = false
+            println "Timeout for merge deploy to staging"
+           }
+         }
+      }
+  }
  }
  post {
   always {
-   junit 'postman-collection/newman/*.xml'
+   junit 'integration-test/newman/*.xml'
   }
   failure {
 

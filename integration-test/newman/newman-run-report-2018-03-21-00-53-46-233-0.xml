@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="demo-integration-test" time="0.225">
+  <testsuite name="v1.0 / create" id="64b7f529-3590-4281-a223-4c69500bf41b" tests="1" time="0.161">
+    <testcase name="The client is created" time="0.161"/>
+  </testsuite>
+  <testsuite name="v1.0 / get one client" id="9cc80dc9-dea7-4fcc-bf95-a7ffaa040596" tests="1" time="0.011">
+    <testcase name="The client is created" time="0.011"/>
+  </testsuite>
+  <testsuite name="v1.0 / delete created" id="fe0cbccf-0d2a-4a2a-bd6e-e3e7836205f0" tests="1" time="0.035">
+    <testcase name="Status code is 200" time="0.035"/>
+  </testsuite>
+  <testsuite name="v1.0 / get not found" id="fdfa9ce2-90b5-4243-b392-a7f15c5ff26a" tests="1" time="0.018">
+    <testcase name="Status code is 404" time="0.018"/>
+  </testsuite>
+</testsuites>
