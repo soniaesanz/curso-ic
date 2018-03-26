@@ -114,7 +114,7 @@ pipeline {
               ]
             }
 
-            sh "echo 'aca va el deploy'"
+            sh "echo 'aca va el deploy a qa'"
 
            } catch (err) {
             result = false
@@ -123,15 +123,40 @@ pipeline {
          }
       }
   }
-  stage('Clean workspace'){
-    steps{
-      deleteDir()
-    }
+   stage('Deploy Prod'){
+   when {
+      branch 'master'
+     }
+      steps {
+      script {
+           result = null
+           try {
+            timeout(time: 60, unit: 'SECONDS') {
+             input message: 'Deploy to prod?',
+              parameters: [
+               [$class: 'BooleanParameterDefinition',
+                defaultValue: false,
+                description: '',
+                name: 'Release'
+               ]
+              ]
+            }
+
+            sh "echo 'aca va el deploy a prod'"
+
+           } catch (err) {
+            result = false
+            println "Timeout for merge deploy to staging"
+           }
+         }
+      }
   }
+  
  }
  post {
   always {
    junit 'integration-test/newman/*.xml'
+    deleteDir()
   }
   failure {
 
