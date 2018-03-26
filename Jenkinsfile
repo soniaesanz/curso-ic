@@ -87,7 +87,7 @@ pipeline {
         ]
       }
 
-      sh "git tag  build-${env.BUILD_NUMBER}"
+      sh "git tag ${env.VERSION}"
 
      } catch (err) {
       result = false
@@ -115,6 +115,7 @@ pipeline {
               ]
             }
 
+            sh "git tag ${env.VERSION}"
             sh "echo 'aca va el deploy a qa'"
 
            } catch (err) {
@@ -142,7 +143,8 @@ pipeline {
                ]
               ]
             }
-
+            
+            sh "git tag ${env.VERSION}"
             sh "echo 'aca va el deploy a prod'"
 
            } catch (err) {
