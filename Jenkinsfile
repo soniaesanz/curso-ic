@@ -103,6 +103,8 @@ pipeline {
       steps {
       script {
            result = null
+           sh "git tag ${env.VERSION}"
+           sh "git push --tags"
            try {
             timeout(time: 60, unit: 'SECONDS') {
              input message: 'Deploy to Staging',
@@ -115,7 +117,7 @@ pipeline {
               ]
             }
 
-            sh "git tag ${env.VERSION}"
+        
             sh "echo 'aca va el deploy a qa'"
 
            } catch (err) {
@@ -132,6 +134,8 @@ pipeline {
       steps {
       script {
            result = null
+            sh "git tag ${env.VERSION}"
+            sh "git push --tags"
            try {
             timeout(time: 60, unit: 'SECONDS') {
              input message: 'Deploy to prod?',
@@ -143,9 +147,6 @@ pipeline {
                ]
               ]
             }
-            
-            sh "git tag ${env.VERSION}"
-            sh "echo 'aca va el deploy a prod'"
 
            } catch (err) {
             result = false
