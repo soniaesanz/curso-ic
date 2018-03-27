@@ -164,8 +164,6 @@ pipeline {
   }
   failure {
 
-
-
           slackSend ( channel:SLACK_CHANNEL,
                       color: '#ff0000',
                       message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
