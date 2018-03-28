@@ -3,8 +3,8 @@ pipeline {
   MAIL = "matias.gonzalez@grupoesfera.com.ar"
   SLACK_CHANNEL = "demo-failed-jobs"
   API_NAME = "demo-api"
-  API_CI_URL = "http://192.168.8.163:9090/"
-  SONAR_URL = "http://192.168.8.163:9000"
+  API_CI_URL = "http://10.241.164.132:9090/"
+  SONAR_URL = "http://10.241.164.132:9000"
 
  }
  agent any
