@@ -114,7 +114,7 @@ sonarqube {
 }
 
 flyway {
-	url = 'jdbc:sqlserver://192.168.8.163:1433;databaseName=demo'
+	url = 'jdbc:sqlserver://localhost:1433;databaseName=demo'
 	user = 'sa'
 	password = 'Pa$$w0rd1'
 	baselineOnMigrate = true
