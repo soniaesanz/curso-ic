@@ -65,9 +65,12 @@ dependencies {
 	dockerJava 'cglib:cglib:3.2.0'
 
 	//TEST DEPENDENCIES
-		testCompile('org.springframework.boot:spring-boot-starter-test')
-		testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
 	testCompile('cglib:cglib-nodep:3.2.2')
+	testCompile('io.cucumber:cucumber-java:4.2.0')
+	testCompile('io.cucumber:cucumber-junit:4.2.0')
+	testCompile('io.rest-assured:rest-assured:3.2.0')
 	runtime('com.h2database:h2:1.4.196')
 }
 
