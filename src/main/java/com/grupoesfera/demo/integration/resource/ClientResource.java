@@ -70,6 +70,15 @@ public class ClientResource {
         );
     }
 
+    @GetMapping("/v1.0/")
+    public ResponseEntity<Client> find(@RequestParam(value = "name") String name) {
+        log.info("searchig for client with, {}", name);
+        return ResponseEntity.ok(
+                clienteRepository.findClientByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException("client", "name", name))
+        );
+    }
+
     @DeleteMapping (value = "/v1.0")
     public ResponseEntity<Client> delete(@RequestBody Client client) {
 
