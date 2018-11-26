@@ -3,8 +3,6 @@ package com.grupoesfera.demo.integration.resource;
 import com.grupoesfera.demo.integration.domain.Client;
 import com.grupoesfera.demo.integration.exceptions.ResourceNotFoundException;
 import com.grupoesfera.demo.integration.repository.ClientRepository;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,16 +41,6 @@ public class ClientResource {
         );
     }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
-                    value = "Results page you want to retrieve (0..N)"),
-            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
-                    value = "Number of records per page."),
-            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-                    value = "Sorting criteria in the format: property(,asc|desc). " +
-                            "Default sort order is ascending. " +
-                            "Multiple sort criteria are supported.")
-    })
     @GetMapping("/v1.0")
     public ResponseEntity<Page> findAll(Pageable p){
 

@@ -1,17 +1,14 @@
 pipeline {
  environment {
   MAIL = "matias.gonzalez@grupoesfera.com.ar"
-  SLACK_CHANNEL = "demo-failed-jobs"
   API_NAME = "demo-api"
   API_CI_URL = "http://10.241.164.132:9090/"
-  SONAR_URL = "http://10.241.164.132:9000"
-
  }
  agent any
 
  stages {
 
-  stage('Unit Test + sonar') {
+  stage('Unit Test') {
    agent {
     docker {
      image 'gradle:4.6.0-jdk8-alpine'
@@ -21,7 +18,6 @@ pipeline {
 
    steps {
     sh 'gradle test'
-    sh "gradle -Dsonar.host.url='${env.SONAR_URL}' sonarqube -x test"
     sh 'cd build/test-results/test/'
     sh 'touch *.xml'
     junit 'build/test-results/test/*.xml'
