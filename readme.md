@@ -8,7 +8,7 @@
 
 ### Para ejecutarlo
 
-Levantar sql server 
+Levantar sql server
 
 ```sh
 $ docker run -e 'ACCEPT_EULA=Y' --name sql-server -e 'SA_PASSWORD=Pa$$w0rd1' -p 1433:1433 -d microsoft/mssql-server-linux:2017-CU4
@@ -22,17 +22,42 @@ $ docker exec -it sql-server /opt/mssql-tools/bin/sqlcmd \
    -Q 'CREATE DATABASE demo'
 ```
 
-
 Levantar redis
 
 ```sh
-$ docker run --name some-redis -d redis -p 6379:6379
+$ docker run --name some-redis -p 6379:6379 -d redis
 ```
 
-Para ejecutar el proyecto hay que pararse en el folder root del proyecto 
+Editar application-ic.properties, poner la ip de la máquina de cada uno (Esto es un workaround si no se posee un servidor de base de datos)
+
+Para compilar la imagen
 
 ```sh
-$ gradle bootRun
+$ ./gradlew -DapiName=curso-ic buildImage
+```
+
+Actualizar la base de datos
+
+```sh
+$ ./gradlew flywayMigrate
+```
+
+Para levantar la imagen con el perfil ic
+
+```sh
+$ docker run --name curso -e JAVA_OPTS="-Dspring.profiles.active=ic" -p 8080:8080 -d curso-ic:0.0.1-SNAPSHOT
+```
+
+Para correr las pruebas de integración
+
+```sh
+$ ./gradlew clean verify
+```
+
+Para ejecutar el proyecto hay que pararse en el folder root del proyecto
+
+```sh
+$ ./gradlew bootRun
 ```
 
    [Docker]: <https://docs.docker.com/install/linux/docker-ce/ubuntu/#os-requirements>
